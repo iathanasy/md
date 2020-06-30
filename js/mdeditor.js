@@ -23,6 +23,14 @@ var md = {};
 	
 	//全部工具
 	var allTools = {
+		"emoji": {
+                "onclick": function (item, editor) {
+					editorElement.find(".editor_sticker").toggle();// 显示或隐藏表情包
+					
+                },
+                "title": "Emoji表情",
+				"icons": "fa-smile-o"
+        },
 		"bold": {
                 "onclick": function (item, editor) {
 					var cursor    = editor.getCursor();
@@ -240,7 +248,7 @@ var md = {};
 
 	if (!tools) {
 		// 默认工具栏
-		tools = ["bold", "italic", "del", "h1", "hr","quote", "code","link", "upload", "unordered-list", "ordered-list", "table","code-block","view", "fullscreen"];
+		tools = ["emoji", "bold", "italic", "del", "h1", "hr","quote", "code","link", "upload", "unordered-list", "ordered-list", "table","code-block","view", "fullscreen"];
     }
 
 	//mdeditor
@@ -263,11 +271,12 @@ var md = {};
 		}
 	});
 
-	html += "\t\t<div class='md_editor_sticker'>\n" +
+	// 表情
+	/*html += "\t\t<div class='md_editor_sticker'>\n" +
             "\t\t\t<div class='md_editor_sticker_images'></div>\n" +
             "\t\t\t<div class='md_editor_sticker_page'></div>\n" +
             "\t\t\t<div class='md_editor_sticker_footer'></div>\n" +
-            "\t\t</div>\n";
+            "\t\t</div>\n";*/
 
 	html += "\t</div>\n" +
 		"\t<div class='md_editor_container'>\n";
