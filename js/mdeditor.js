@@ -313,11 +313,13 @@ var md = {};
 
 	// CodeMirror
 	var mdeditor = CodeMirror.fromTextArea(editorArea[0], {
-		mode: 'markdown', //编辑器语言
+		//mode: 'markdown', //编辑器语言
+		mode: 'gfm',
 		lineNumbers: true, //显示行号
 		lineWrapping: true,	//代码折叠
+		styleActiveLine: true,
 		//theme: "default",//编辑器主题
-		theme: "base16-light",
+		//theme: "base16-light",
 		//快捷键
 		extraKeys: {
 					"Enter": "newlineAndIndentContinueMarkdownList",

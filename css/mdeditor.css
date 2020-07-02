@@ -40,6 +40,7 @@
   font-family: "YaHei Consolas Hybrid", Consolas, "微软雅黑", "Meiryo UI", "Malgun Gothic", "Segoe UI", "Trebuchet MS", Helvetica, "Monaco", courier, monospace;
   line-height: 1.6;
 }
+/**
 .md_editor_input .CodeMirror pre {
   padding: 0 10px;
 }
@@ -58,7 +59,7 @@
 .md_editor_input .CodeMirror pre.CodeMirror-placeholder {
   color: #999;
 }
-
+**/
 
 
 .md_editor_output {
