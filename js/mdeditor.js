@@ -21,6 +21,9 @@ var md = {};
        textareaContent = "md_editor_content";
     }
 	
+	/**保存到浏览器*/
+	var storageKey = 'markdoc'
+	
 	//全部工具
 	var allTools = {
 		"emoji": {
@@ -325,6 +328,14 @@ var md = {};
 					"Enter": "newlineAndIndentContinueMarkdownList",
 					"Alt-Space": "autocomplete",//ctrl-space唤起智能提示
 					"Ctrl-S": function (editor) {
+						/**
+						storageValue = localStorage.getItem(storageKey);
+						if (storageValue) {
+							editor.val(storageValue);
+						}
+						//保存到浏览器
+						localStorage.setItem(storageKey, content);
+						**/
 						console.log(editor.getValue());
 					},//保存
 					"Ctrl-Z":function (editor) {
@@ -387,6 +398,9 @@ var md = {};
 		  Prism.highlightElement(block);
 		  
 		});
+		
+		//保存到浏览器
+		localStorage.setItem(storageKey, content);
     }
 
 	/**
