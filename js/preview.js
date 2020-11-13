@@ -1,0 +1,1 @@
+var _content;$(function(){function b(b){a.html(b)}var a=$("#container");window.render=b,_content&&b(_content),parent.previewLoaded(),$(document).on("click","a",function(a){a.preventDefault(),window.open(this.href)})}),window.render=function(a){_content=a};

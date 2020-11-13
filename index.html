@@ -30,6 +30,8 @@
 	<script>hljs.initHighlightingOnLoad();</script>-->
 	
 	<script src="js/mdeditor.js"></script>
+	<!--保存文件-->
+	<script src="js/FileSaver.js"></script>
 
     
 	<link rel="stylesheet" href="https://www.layuicdn.com/layui-v2.5.6/css/layui.css">
@@ -42,20 +44,36 @@
     
 </head>
 <style>
-
+	.preview{
+		display: none;
+	}
 </style>
 <body>
 
 <div id="md_editor">
 
 </div>
+<!-- 保存pdf -->
+<div class="preview">
+	<iframe src="preview.html" frameborder="0" marginheight="0" marginwidth="0" id='dddddd'></iframe>
+</div>
 
 <div style="text-align: center;margin-top: 50px;">
-    <input type="button" value="获取编辑器值" id="js_editor_val" class="btn btn-default" />
-	<input type="button" value="获取HTML" id="js_editor_html" class="btn btn-default" />
+	<button type="button" class='btn btn-primary' id="btn-md">下载 Markdown</button>
+	<button type="button" class='btn btn-success' id="btn-doc">下载 Doc</button>
+	<button type="button" class='btn btn-danger' id="btn-html">下载 HTML</button>
+	<button type="button" class='btn btn-warning' id="btn-pdf">下载 PDF</button>
 </div>
 
 </body>
+
+<script>
+	var _previewLoaded;
+	window.previewLoaded = function(){
+		_previewLoaded = true;
+	};
+</script>
+
 <script>
     (function () {
         var editor = $('#md_editor').mdEditor({
@@ -65,14 +83,70 @@
 			"tools": ["bold", "italic", "del", "h1", "hr","quote", "code","link", "upload", "unordered-list", "ordered-list", "view", "fullscreen"]
         });
 
+        var $iframe = $('iframe');
+			iframeWin = $iframe[0].contentWindow;
 
-        $('#js_editor_val').click(function () {
-		console.log($('#contentMd').val());
-            alert(editor.getValue());
-        });
-		$('#js_editor_html').click(function () {
-			alert($('.md_editor_output .markdown-body').html());
+
+		function getName(ext) {
+        	return ('mark') + ext;
+    	}
+
+		// 下载pdf
+		$('#btn-pdf').click(function() {
+			alert("请在chrome浏览器中操作,你将打开一个新页面，在新页面里点击右键=>打印，选择保存pdf");
+			
+			var win = window.open("", "", "fullscreen");
+			var doc = win.document;
+			doc.write(iframeWin.document.body.parentNode.outerHTML);
+			doc.close();
 		});
+
+		// md
+		$('#btn-md').click(function() {
+			var content = editor.getValue();
+			var blob = new Blob([content], { type: 'text/x-markdown;charset=utf-8' });
+			saveAs(blob, getName('.md'));
+    	});
+
+		// doc
+		$('#btn-doc').click(function() {
+			download('.doc', 'application/msword');
+		});
+
+		// html
+		$('#btn-html').click(function() {
+			download('.html', 'text/html;charset=utf-8');
+		});
+
+		// 下载
+		function download(ext, type) {
+			var doc = iframeWin.document,
+				head = doc.head,
+				links = $(head).find('link'),
+				ajaxes = [],
+				text = [];
+			links.each(function(i) {
+				ajaxes.push($.ajax({
+					url: this.href
+				}));
+			});
+			$.when.apply($, ajaxes).done(function() {
+				for (var i = 0; i < arguments.length; i += 1) {
+					text.push(arguments[i][0]);
+				}
+				var content = iframeWin.document.body.parentNode.outerHTML;
+				if (content.charAt(1) !== '!') {
+					content = '<!doctype html>' + content;
+				}
+				// Replace external styles with inline <style>
+				content = content.replace(/(<link[^>]*>\s*(<\/link>)?\s*)+/, '<style type="text/css">' + text.join('\n') + '</style>');
+				// Remove scripts
+				content = content.replace(/<script[^>]*>[\s\S]*?<\/script>\s*/g, '');
+				var blob = new Blob([content], { type: type });
+				saveAs(blob, getName(ext));
+			});
+		}
+
     })();
 
 </script>

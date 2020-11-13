@@ -412,7 +412,7 @@ var md = {};
 		imgs.load(function () {
 			setMaxImageSize(this);
 		});**/
-		
+
 		//Prism代码高亮 显示行号
 		editorView.find('pre').addClass("line-numbers").css("white-space", "pre-wrap");
 		editorView.find('pre code').each(function(i, block) {
@@ -421,6 +421,11 @@ var md = {};
 		
 		//保存到浏览器
 		localStorage.setItem(storageKey, content);
+
+		// 保存pdf
+		var $iframe = $('iframe');
+		var iframeWin = $iframe[0].contentWindow;
+		iframeWin.render(html);
     }
 
 	/**
