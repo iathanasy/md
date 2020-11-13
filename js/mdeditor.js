@@ -319,6 +319,11 @@ var md = {};
 		editorView.find('pre code').each(function(i, block) {
 		  Prism.highlightElement(block);
 		});
+
+		// 保存pdf
+		var $iframe = $('iframe');
+		var iframeWin = $iframe[0].contentWindow;
+		iframeWin.render(html);
 	}
 
 	// marked
